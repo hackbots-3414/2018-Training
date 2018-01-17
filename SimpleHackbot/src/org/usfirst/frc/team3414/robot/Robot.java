@@ -60,6 +60,7 @@ public class Robot extends SampleRobot {
 		// String autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+		
 		myRobot.setSafetyEnabled(false);
 		myRobot.tankDrive(1.0,1.0);
 		Timer.delay(2);
@@ -82,7 +83,7 @@ public class Robot extends SampleRobot {
 		while (isOperatorControl() && isEnabled()) {
 			/*myRobot.arcadeDrive(stick); // drive with arcade style (use right
 										// stick) */
-			myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(3));
+			myRobot.tankDrive(stick.getRawAxis(3), stick.getRawAxis(1));
 			Timer.delay(0.005); // wait for a motor update time
 		}
 	}
