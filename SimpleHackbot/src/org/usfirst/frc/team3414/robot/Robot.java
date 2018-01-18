@@ -57,13 +57,23 @@ public class Robot extends SampleRobot {
 	@Override
 	public void autonomous() {
 		
-	
-		double leftValue = 1.0;
-		double rightValue = 1.0;
-		Timer.delay(1.0);
 			myRobot.setSafetyEnabled(true);
-			myRobot.tankDrive(leftValue, rightValue);
 			
+			
+			myRobot.tankDrive(1.0, 1.0);
+			Timer.delay(5.0);
+			
+			myRobot.tankDrive(0,1.0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 1.0);
+			Timer.delay(2);
+			myRobot.tankDrive(0, 0);	
+			
+			myRobot.tankDrive(0, 1.0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
 			
 			
 	}
@@ -90,4 +100,6 @@ public class Robot extends SampleRobot {
 	public void test() {
 	}
 }
+
+
 
