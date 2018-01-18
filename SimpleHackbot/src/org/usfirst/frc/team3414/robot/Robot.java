@@ -62,15 +62,59 @@ public class Robot extends SampleRobot {
 		System.out.println("Auto selected: " + autoSelected);
 		
 		myRobot.setSafetyEnabled(false);
+		
 		myRobot.tankDrive(1.0,1.0);
 		Timer.delay(2);
 		myRobot.tankDrive(0,0);
+		
 		myRobot.tankDrive(0,0.75);
 		Timer.delay(2);
 		myRobot.tankDrive(0,0);
+		
 		myRobot.tankDrive(1,1);
 		Timer.delay(3);
 		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(0.75,0);
+		Timer.delay(2);
+		myRobot.tankDrive(0,0); 
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(2);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,0);
+		Timer.delay(1.65);
+		myRobot.tankDrive(0, 0);
+		
+		myRobot.tankDrive(1,1); 
+		Timer.delay(4.5);
+		myRobot.tankDrive(0, 0);
+		
+		myRobot.tankDrive(1,0);
+		Timer.delay(1.5);
+		myRobot.tankDrive(0, 0);
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(3);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,0);
+		Timer.delay(1.5);
+		myRobot.tankDrive(0, 0);
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(3);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,0);
+		Timer.delay(1);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(12);
+		myRobot.tankDrive(0,0);
+		
 		
 	}
 
