@@ -60,6 +60,7 @@ public class Robot extends SampleRobot {
 			myRobot.setSafetyEnabled(true);
 			
 			
+				
 			myRobot.tankDrive(1.0, 1.0);
 			Timer.delay(5.0);
 			
@@ -75,9 +76,74 @@ public class Robot extends SampleRobot {
 			Timer.delay(1);
 			myRobot.tankDrive(0, 0);
 			
+			myRobot.tankDrive(1.0, 1.0);
+			Timer.delay(5.0);
+			
+			myRobot.tankDrive(0,1.0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 1.0);
+			Timer.delay(2);
+			myRobot.tankDrive(0, 0);	
+			
+			myRobot.tankDrive(0, 1.0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 1.0);
+			Timer.delay(2.0);
+			
+			myRobot.tankDrive(0,1.0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 1.0);
+			Timer.delay(2);
+			myRobot.tankDrive(0, 0);	
+			
+			myRobot.tankDrive(0, 1.0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 1.0);
+			Timer.delay(11.5);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0,1.0);
+			Timer.delay(3);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0,1.0);
+			Timer.delay(3);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0, 0);
+			Timer.delay(1);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0,1.0);
+			Timer.delay(3);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0,0.0);	
+			Timer.delay(2.5);
+			myRobot.tankDrive(0, 0);
+			
+			myRobot.tankDrive(1.0,1.0);
+			Timer.delay(9);
+			myRobot.tankDrive(0.0, 0.0);
 			
 	}
-
+	
 	/**
 	 * Runs the motors with arcade steering.
 	 */
