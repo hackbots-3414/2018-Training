@@ -142,12 +142,14 @@ public class Robot extends SampleRobot {
 			myRobot.tankDrive(0,0);
 			
 			myRobot.tankDrive(1,1);
-			Timer.delay(10);
+			Timer.delay(12);
 			myRobot.tankDrive(0,0);
 	
 			myRobot.tankDrive(-1,1);
 			Timer.delay(0.75);
 			myRobot.tankDrive(0,0);
+			
+			
 			
 	
 	
