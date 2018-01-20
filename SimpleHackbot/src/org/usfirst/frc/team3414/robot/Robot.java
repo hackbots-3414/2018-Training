@@ -112,8 +112,41 @@ public class Robot extends SampleRobot {
 		myRobot.tankDrive(0,0);
 		
 		myRobot.tankDrive(1,1);
-		Timer.delay(12);
+		Timer.delay(14);
 		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(0,1);
+		Timer.delay(1.5);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(4);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(0,1);
+		Timer.delay(1.5);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(4);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(0,1);
+		Timer.delay(1.5);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(3);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(0,1);
+		Timer.delay(1);
+		myRobot.tankDrive(0,0);
+		
+		myRobot.tankDrive(1,1);
+		Timer.delay(5);
+		myRobot.tankDrive(0,0);
+		
 		
 		
 	}
