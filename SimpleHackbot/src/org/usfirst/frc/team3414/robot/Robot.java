@@ -2,9 +2,12 @@ package org.usfirst.frc.team3414.robot;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,7 +34,8 @@ public class Robot extends SampleRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	SendableChooser<String> chooser = new SendableChooser<>();
-
+	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
+	private Encoder leftEncoder = new Encoder(3, 4, true, EncodingType.k4X);
 	public Robot() {
 		myRobot.setExpiration(0.1);
 	}
@@ -41,8 +45,22 @@ public class Robot extends SampleRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto modes", chooser);
+		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		rightEncoder.setDistancePerPulse(
+				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
+		leftEncoder.setDistancePerPulse(
+				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
 	}
-
+	public void moveForward(double distance, double speed) { 
+		
+		rightEncoder.reset();
+		while(distance-rightEncoder.getDistance()>0){
+			myRobot.tankDrive(speed, speed);
+			
+		}
+		myRobot.tankDrive(0,0);
+	}
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -61,8 +79,11 @@ public class Robot extends SampleRobot {
 		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
 		
-		myRobot.setSafetyEnabled(false);
+		myRobot.setSafetyEnabled(true);
 		
+		moveForward(7, 1);
+		
+		/*
 		myRobot.tankDrive(1.0,1.0);
 		Timer.delay(2);
 		myRobot.tankDrive(0,0);
@@ -146,7 +167,7 @@ public class Robot extends SampleRobot {
 		myRobot.tankDrive(1,1);
 		Timer.delay(5);
 		myRobot.tankDrive(0,0);
-		
+		*/
 		
 		
 	}
