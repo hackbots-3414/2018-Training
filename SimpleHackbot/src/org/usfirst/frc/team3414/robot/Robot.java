@@ -2,9 +2,12 @@ package org.usfirst.frc.team3414.robot;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,9 +34,17 @@ public class Robot extends SampleRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	SendableChooser<String> chooser = new SendableChooser<>();
+	private Encoder rightEncoder = new Encoder(1, 2, true, EncodingType.k4X);
+	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
 
 	public Robot() {
 		myRobot.setExpiration(0.1);
+		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		rightEncoder.setDistancePerPulse(
+				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
+		leftEncoder.setDistancePerPulse(
+				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
 	}
 
 	@Override
@@ -43,6 +54,29 @@ public class Robot extends SampleRobot {
 		SmartDashboard.putData("Auto modes", chooser);
 	}
 
+	public void moveForward(double distance, double speed){
+		leftEncoder.reset();
+		while (distance-leftEncoder.getDistance()>0) {
+				
+			myRobot.tankDrive(speed,speed);
+			System.out.println("distance-leftEncoder.getDistance()>0: " + (distance-leftEncoder.getDistance()));
+			Timer.delay(0.05);
+		}
+		myRobot.tankDrive(0,0);
+	}
+	
+	public void turnLeft(double time, double speed){
+		myRobot.tankDrive(-speed,speed);
+		Timer.delay(time);
+		myRobot.tankDrive(0, 0);
+	}
+	
+	public void turnRight(double time, double speed){
+		myRobot.tankDrive(speed,-speed);
+		Timer.delay(time);
+		myRobot.tankDrive(0, 0);
+	}
+	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -61,11 +95,16 @@ public class Robot extends SampleRobot {
 
 			myRobot.setSafetyEnabled(true);
 			
-			myRobot.tankDrive(1,1);
-			Timer.delay(3);
-			myRobot.tankDrive(0,0);
+			turnLeft(1.75, 1);
+			moveForward (17, 1);
+			turnRight(0.4, 1);
+			moveForward(5,1);
+			turnRight(0.75,1);
+			moveForward(3, 1);
+		
 			
-			myRobot.tankDrive(-1,1);
+			
+/*			myRobot.tankDrive(-1,1);
 			Timer.delay(1);
 			myRobot.tankDrive(0, 0);
 			
@@ -148,40 +187,11 @@ public class Robot extends SampleRobot {
 			myRobot.tankDrive(-1,1);
 			Timer.delay(0.75);
 			myRobot.tankDrive(0,0);
+*/			
+			
+	
 			
 			
-			
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	}
 	
 	
