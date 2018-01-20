@@ -101,6 +101,10 @@ public class Robot extends SampleRobot {
 			moveForward(5,1);
 			turnRight(0.75,1);
 			moveForward(3, 1);
+			
+			
+			
+			
 		
 			
 			
