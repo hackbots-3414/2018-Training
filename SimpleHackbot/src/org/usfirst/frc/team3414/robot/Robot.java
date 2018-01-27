@@ -56,7 +56,44 @@ public class Robot extends SampleRobot {
 		
 		
 	}
+	public void DriveForward(double dist){
+		leftEncoder.reset();
+		rightEncoder.reset();
+		Timer.delay(0.01);
+		while(dist-leftEncoder.getDistance()>0){
+			myRobot.tankDrive(1, 1);
+			System.out.println(leftEncoder.getDistance());
+			Timer.delay(0.01);
+		}	
+			myRobot.tankDrive(0,0);
 
+	}
+	public void DriveLeft(double left){
+		leftEncoder.reset();
+		rightEncoder.reset();
+		Timer.delay(0.01);
+		while(left-leftEncoder.getDistance()>0){
+			myRobot.tankDrive(0, 1);
+			System.out.println(leftEncoder.getDistance());
+			Timer.delay(0.01);
+		}	
+		myRobot.tankDrive(0,0);
+
+	}
+	public void DriveRight(double right){
+		leftEncoder.reset();
+		rightEncoder.reset();
+		Timer.delay(0.01);
+		while(right-leftEncoder.getDistance()>0){
+			myRobot.tankDrive(1, 0);
+			System.out.println(leftEncoder.getDistance());
+			Timer.delay(0.01);
+		}	
+			
+		myRobot.tankDrive(0,0);
+
+	}
+	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -70,98 +107,18 @@ public class Robot extends SampleRobot {
 	 */
 	@Override
 	public void autonomous() {
-		
+			
 			myRobot.setSafetyEnabled(true);
+			DriveForward(5);
+			DriveLeft(5);
+			DriveForward(15);
+			DriveLeft(3);
+			DriveForward(7);
+			DriveLeft(3);
+			DriveForward(7);
 			
-			leftEncoder.reset();
-			rightEncoder.reset();
-			while(5-rightEncoder.getDistance()>0){
-				myRobot.tankDrive(1, 1);
-				System.out.println(5-rightEncoder.getDistance());
-			}
-			myRobot.tankDrive(0, 0);
-				
-		/*	myRobot.tankDrive(1.0, 1.0);
-			Timer.delay(5.0);
-			
-			myRobot.tankDrive(0,1.0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 1.0);
-			Timer.delay(2);
-			myRobot.tankDrive(0, 0);	
-			
-			myRobot.tankDrive(0, 1.0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 1.0);
-			Timer.delay(5.0);
-			
-			myRobot.tankDrive(0,1.0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 1.0);
-			Timer.delay(2);
-			myRobot.tankDrive(0, 0);	
-			
-			myRobot.tankDrive(0, 1.0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 1.0);
-			Timer.delay(2.0);
-			
-			myRobot.tankDrive(0,1.0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 1.0);
-			Timer.delay(2);
-			myRobot.tankDrive(0, 0);	
-			
-			myRobot.tankDrive(0, 1.0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 1.0);
-			Timer.delay(11.5);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0,1.0);
-			Timer.delay(3);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0,1.0);
-			Timer.delay(3);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0, 0);
-			Timer.delay(1);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0,1.0);
-			Timer.delay(3);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0,0.0);	
-			Timer.delay(2.5);
-			myRobot.tankDrive(0, 0);
-			
-			myRobot.tankDrive(1.0,1.0);
-			Timer.delay(9);
-			myRobot.tankDrive(0.0, 0.0);
-		*/	
+
+		
 	}
 	
 	/**
@@ -171,7 +128,8 @@ public class Robot extends SampleRobot {
 	public void operatorControl() {
 		myRobot.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
-			/*myRobot.arcadeDrive(stick); // drive with arcade style (use right
+			/*myRobot.arcadeDrive(stick); // drive with arcade 		myRobot.tankDrive(0, 0);
+style (use right
 										// stick) */
 			myRobot.tankDrive(stick.getRawAxis(3), stick.getRawAxis(1));
 			Timer.delay(0.005); // wait for a motor update time
