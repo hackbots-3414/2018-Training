@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,8 +37,9 @@ public class Robot extends SampleRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	private Encoder rightEncoder = new Encoder(1, 2, true, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
-
-	public Robot() {
+	public AnalogGyro gyro = new AnalogGyro(2);
+	
+	public Robot() {     
 		myRobot.setExpiration(0.1);
 		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -52,8 +54,10 @@ public class Robot extends SampleRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto modes", chooser);
+		gyro.calibrate();
 	}
 
+	
 	public void moveForward(double distance, double speed){
 		System.out.println("moveForward enter");
 		leftEncoder.reset();
@@ -71,21 +75,42 @@ public class Robot extends SampleRobot {
 		System.out.println("moveForward exit");
 	}
 	
-	public void turnLeft(double time, double speed){
+
+	public void turnLeft(double angle, double speed){
 		System.out.println("turnLeft enter");
-		myRobot.tankDrive(-speed,speed);
-		Timer.delay(time);
-		myRobot.tankDrive(0, 0);
+		gyro.reset();
+		Timer.delay(0.05);
+		
+		System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
+		
+		while (angle-gyro.getAngle()>0) {
+				
+			myRobot.tankDrive(-speed,speed);
+			//System.out.println("angle-gyro.getAngle()>0: " + (angle-gyro.getAngle()));
+			Timer.delay(0.05);
+		}
+		myRobot.tankDrive(0,0);
 		System.out.println("turnLeft exit");
 	}
 	
-	public void turnRight(double time, double speed){
+	
+	   public void turnRight(double angle, double speed){
 		System.out.println("turnRight enter");
-		myRobot.tankDrive(speed,-speed);
-		Timer.delay(time);
-		myRobot.tankDrive(0, 0);
+		gyro.reset();
+		Timer.delay(0.05);
+		
+		System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
+		
+		while (angle-gyro.getAngle()>0) {
+				
+			myRobot.tankDrive(speed,-speed);
+			System.out.println("angle-gyro.getAngle()>0: " + (angle-gyro.getAngle()));
+			Timer.delay(0.05);
+		}
+		myRobot.tankDrive(0,0);
 		System.out.println("turnRight exit");
 	}
+	
 	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -105,7 +130,33 @@ public class Robot extends SampleRobot {
 
 			myRobot.setSafetyEnabled(true);
 			
-			turnLeft(1.75, 1);
+			turnLeft(95, 1);
+			moveForward(17, 1);
+			turnRight(20, 0.5);
+			moveForward(8, 1);
+			
+			/*turnRight(75, 1);
+			moveForward(5, 1);
+			turnRight(75, 1);
+			moveForward(6, 1);
+			turnRight(100, 1);
+			moveForward(39, 1);
+			turnLeft(75, 1);
+			moveForward(8, 1);
+			turnLeft(75, 1);
+			moveForward(14, 1);
+			turnLeft(125, 1);
+			moveForward(4, 1);
+			turnLeft(25, 1);
+			moveForward(20, 1);
+			turnLeft(100, 1);
+			moveForward(5.5, 1);
+			turnLeft(285, 1);
+			moveForward(0, 0);
+			*/
+			
+			
+/*			turnLeft(1.75, 1);
 			moveForward(17, 1);
 			turnRight(0.75, 1);
 			moveForward(8, 1);
@@ -127,20 +178,10 @@ public class Robot extends SampleRobot {
 			moveForward(5.5, 1);
 			turnLeft(2.85, 1);
 			moveForward(0, 0);
+*/	
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		
+
 			
 			
 /*			myRobot.tankDrive(-1,1);
