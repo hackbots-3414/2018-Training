@@ -55,26 +55,36 @@ public class Robot extends SampleRobot {
 	}
 
 	public void moveForward(double distance, double speed){
+		System.out.println("moveForward enter");
 		leftEncoder.reset();
+		Timer.delay(0.05);
+		
+		System.out.println("distance"+distance+", encoderGetdistance"+leftEncoder.getDistance());
+		
 		while (distance-leftEncoder.getDistance()>0) {
 				
 			myRobot.tankDrive(speed,speed);
-			System.out.println("distance-leftEncoder.getDistance()>0: " + (distance-leftEncoder.getDistance()));
+			//System.out.println("distance-leftEncoder.getDistance()>0: " + (distance-leftEncoder.getDistance()));
 			Timer.delay(0.05);
 		}
 		myRobot.tankDrive(0,0);
+		System.out.println("moveForward exit");
 	}
 	
 	public void turnLeft(double time, double speed){
+		System.out.println("turnLeft enter");
 		myRobot.tankDrive(-speed,speed);
 		Timer.delay(time);
 		myRobot.tankDrive(0, 0);
+		System.out.println("turnLeft exit");
 	}
 	
 	public void turnRight(double time, double speed){
+		System.out.println("turnRight enter");
 		myRobot.tankDrive(speed,-speed);
 		Timer.delay(time);
 		myRobot.tankDrive(0, 0);
+		System.out.println("turnRight exit");
 	}
 	
 	/**
@@ -96,11 +106,36 @@ public class Robot extends SampleRobot {
 			myRobot.setSafetyEnabled(true);
 			
 			turnLeft(1.75, 1);
-			moveForward (17, 1);
-			turnRight(0.4, 1);
-			moveForward(5,1);
-			turnRight(0.75,1);
-			moveForward(3, 1);
+			moveForward(17, 1);
+			turnRight(0.75, 1);
+			moveForward(8, 1);
+			turnRight(0.75, 1);
+			moveForward(5, 1);
+			turnRight(0.75, 1);
+			moveForward(6, 1);
+			turnRight(1, 1);
+			moveForward(39, 1);
+			turnLeft(0.75, 1);
+			moveForward(8, 1);
+			turnLeft(0.75, 1);
+			moveForward(14, 1);
+			turnLeft(1.25, 1);
+			moveForward(4, 1);
+			turnLeft(0.25, 1);
+			moveForward(20, 1);
+			turnLeft(1, 1);
+			moveForward(5.5, 1);
+			turnLeft(2.85, 1);
+			moveForward(0, 0);
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			
