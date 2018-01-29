@@ -34,7 +34,7 @@ public class Robot extends SampleRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	SendableChooser<String> chooser = new SendableChooser<>();
-	private Encoder rightEncoder = new Encoder(1, 2, true, EncodingType.k4X);
+	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
 	
 	public Robot() {
@@ -57,20 +57,23 @@ public class Robot extends SampleRobot {
 		
 	}
 	public void DriveForward(double dist){
+	System.out.println("Enter drive forward");
 		leftEncoder.reset();
-		rightEncoder.reset();
 		Timer.delay(0.01);
 		while(dist-leftEncoder.getDistance()>0){
 			myRobot.tankDrive(1, 1);
 			System.out.println(leftEncoder.getDistance());
 			Timer.delay(0.01);
+			
 		}	
 			myRobot.tankDrive(0,0);
-
+			System.out.println("Exit drive forward");
 	}
 	public void DriveLeft(double left){
+		System.out.println("Enter drive left");
+
 		leftEncoder.reset();
-		rightEncoder.reset();
+		
 		Timer.delay(0.01);
 		while(left-leftEncoder.getDistance()>0){
 			myRobot.tankDrive(0, 1);
@@ -78,19 +81,22 @@ public class Robot extends SampleRobot {
 			Timer.delay(0.01);
 		}	
 		myRobot.tankDrive(0,0);
+		System.out.println("Exit drive left");
 
 	}
 	public void DriveRight(double right){
-		leftEncoder.reset();
+		System.out.println("Enter drive right");
 		rightEncoder.reset();
 		Timer.delay(0.01);
-		while(right-leftEncoder.getDistance()>0){
+		while(right-rightEncoder.getDistance()>0){
 			myRobot.tankDrive(1, 0);
-			System.out.println(leftEncoder.getDistance());
+			System.out.println(rightEncoder.getDistance());
 			Timer.delay(0.01);
+
 		}	
-			
+		
 		myRobot.tankDrive(0,0);
+		System.out.println("Exit drive right");
 
 	}
 	
@@ -108,7 +114,8 @@ public class Robot extends SampleRobot {
 	@Override
 	public void autonomous() {
 			
-			myRobot.setSafetyEnabled(true);
+			 myRobot.setSafetyEnabled(true);
+		
 			DriveForward(5);
 			DriveLeft(5);
 			DriveForward(15);
@@ -116,6 +123,11 @@ public class Robot extends SampleRobot {
 			DriveForward(7);
 			DriveLeft(3);
 			DriveForward(7);
+			DriveLeft(3);
+			DriveForward(4);
+			DriveLeft(4);
+			DriveForward(37);
+			DriveRight(3);
 			
 
 		
