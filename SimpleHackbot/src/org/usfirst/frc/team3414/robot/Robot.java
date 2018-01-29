@@ -81,7 +81,7 @@ public class Robot extends SampleRobot {
 		gyro.reset();
 		Timer.delay(0.05);
 		
-		System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
+		//System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
 		
 		while (angle-gyro.getAngle()>0) {
 				
@@ -96,15 +96,19 @@ public class Robot extends SampleRobot {
 	
 	   public void turnRight(double angle, double speed){
 		System.out.println("turnRight enter");
-		gyro.reset();
+		double startAngle = gyro.getAngle();
 		Timer.delay(0.05);
+		double currentAngle = startAngle;
+		//System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
 		
-		System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
-		
-		while (angle-gyro.getAngle()>0) {
-				
+		while (angle>currentAngle-startAngle) {
+			
+			currentAngle = gyro.getAngle();
+			if(currentAngle < 0) {
+					currentAngle = currentAngle + 360; 
+			}
 			myRobot.tankDrive(speed,-speed);
-			System.out.println("angle-gyro.getAngle()>0: " + (angle-gyro.getAngle()));
+			System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle );
 			Timer.delay(0.05);
 		}
 		myRobot.tankDrive(0,0);
@@ -132,8 +136,9 @@ public class Robot extends SampleRobot {
 			
 			turnLeft(95, 1);
 			moveForward(17, 1);
-			turnRight(20, 0.5);
+			turnRight(50, 1);
 			moveForward(8, 1);
+			
 			
 			/*turnRight(75, 1);
 			moveForward(5, 1);
