@@ -93,8 +93,32 @@ public class Robot extends SampleRobot {
 		System.out.println("turnLeft exit");
 	}
 	
+	public void turnRight(double angle, double speed){
+		System.out.println("turnRight enter");
+		double startAngle = gyro.getAngle();
+		Timer.delay(0.1);
+		double currentAngle = startAngle;
+		//System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
+		
+		while (angle>startAngle-currentAngle) {
+			
+			currentAngle = gyro.getAngle();
+			if(currentAngle < 0) {
+					currentAngle = currentAngle + 360; 
+			if(startAngle < 0) {
+						startAngle = startAngle + 360;
+				}
+					
+			}
+			myRobot.tankDrive(speed,-speed);
+			System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle );
+			Timer.delay(0.1);
+		}
+		myRobot.tankDrive(0,0);
+		System.out.println("turnRight exit");
+	}
 	
-	   public void turnRight(double angle, double speed){
+	   /*public void turnRight(double angle, double speed){
 		System.out.println("turnRight enter");
 		double startAngle = gyro.getAngle();
 		Timer.delay(0.05);
@@ -114,7 +138,7 @@ public class Robot extends SampleRobot {
 		myRobot.tankDrive(0,0);
 		System.out.println("turnRight exit");
 	}
-	
+	*/
 	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -136,11 +160,28 @@ public class Robot extends SampleRobot {
 			
 			turnLeft(95, 1);
 			moveForward(17, 1);
-			turnRight(50, 1);
+			turnRight(30, 1);
+			moveForward(10, 1);
+			turnRight(20,1);
 			moveForward(8, 1);
+			turnRight(30, 1);
+			moveForward(5, 1);
+			turnRight(10, 1);
+			moveForward(32,1);
+			turnLeft(30, 1);
+			moveForward(15, 1);
+			turnLeft(30, 1);
+			moveForward(8, 1);
+			turnLeft(30, 1);
+			moveForward(15, 1);
+			turnLeft(40, 1);
+			moveForward(10, 1);
+			turnRight(30, 1);
+			
+						
 			
 			
-			/*turnRight(75, 1);
+/*			turnRight(75, 1);
 			moveForward(5, 1);
 			turnRight(75, 1);
 			moveForward(6, 1);
@@ -158,7 +199,7 @@ public class Robot extends SampleRobot {
 			moveForward(5.5, 1);
 			turnLeft(285, 1);
 			moveForward(0, 0);
-			*/
+*/
 			
 			
 /*			turnLeft(1.75, 1);
