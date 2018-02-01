@@ -55,12 +55,31 @@ public class Robot extends SampleRobot {
 	public void moveForward(double distance, double speed) { 
 		
 		rightEncoder.reset();
+		Timer.delay(0.1);
 		while(distance-rightEncoder.getDistance()>0){
 			myRobot.tankDrive(speed, speed);
-			
+			Timer.delay(0.1);
 		}
-		myRobot.tankDrive(0,0);
+		myRobot.tankDrive(0, 0);
+	
 	}
+	public void turnLeft(double time, double speed) {
+		myRobot.tankDrive(-speed, speed); 
+		Timer.delay(time);
+		
+		
+		
+		myRobot.tankDrive(0, 0);
+	
+	}	
+	public void turnRight(double time, double speed) {
+		myRobot.tankDrive(speed, -speed); 
+		Timer.delay(time);
+		
+		
+		myRobot.tankDrive(0,0); 
+	}
+
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -81,7 +100,28 @@ public class Robot extends SampleRobot {
 		
 		myRobot.setSafetyEnabled(true);
 		
+		moveForward(9, 1);
+		turnRight(0.75,1);
+		moveForward(18, 1);
+		turnRight(0.75,1);
 		moveForward(7, 1);
+		turnRight(0.75,1);
+		moveForward(7, 1);
+		turnRight(0.75,1);
+		moveForward(6, 1);
+		turnRight(0.75,1);
+		moveForward(23, 1);
+		turnLeft(0.50,1);
+		moveForward(15, 1);
+		turnLeft(0.75,1);
+		moveForward(7, 1);
+		turnLeft(1 ,1);
+		moveForward(10, 1);
+		turnLeft(1 ,1);
+		moveForward(17, 1);
+
+
+		
 		
 		/*
 		myRobot.tankDrive(1.0,1.0);
