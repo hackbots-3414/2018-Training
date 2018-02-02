@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +37,7 @@ public class Robot extends SampleRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
-	
+	public AnalogGyro gyro = new AnalogGyro(2);
 	public Robot() {
 		myRobot.setExpiration(0.1);
 	}
@@ -59,7 +60,8 @@ public class Robot extends SampleRobot {
 	public void DriveForward(double dist){
 	System.out.println("Enter drive forward");
 		leftEncoder.reset();
-		Timer.delay(0.01);
+		rightEncoder.reset();
+		
 		while(dist-leftEncoder.getDistance()>0){
 			myRobot.tankDrive(1, 1);
 			System.out.println(leftEncoder.getDistance());
@@ -69,32 +71,45 @@ public class Robot extends SampleRobot {
 			myRobot.tankDrive(0,0);
 			System.out.println("Exit drive forward");
 	}
-	public void DriveLeft(double left){
+	public void DriveLeft(double angle){
 		System.out.println("Enter drive left");
 
-		leftEncoder.reset();
+		gyro.reset();
 		
 		Timer.delay(0.01);
-		while(left-leftEncoder.getDistance()>0){
-			myRobot.tankDrive(0, 1);
-			System.out.println(leftEncoder.getDistance());
+		while(angle-gyro.getAngle() > 0){
+			myRobot.tankDrive(-1, 1);
+			System.out.println(gyro.getAngle());
 			Timer.delay(0.01);
 		}	
 		myRobot.tankDrive(0,0);
 		System.out.println("Exit drive left");
 
 	}
-	public void DriveRight(double right){
+	public void DriveRight(double rightangle){
 		System.out.println("Enter drive right");
-		rightEncoder.reset();
-		Timer.delay(0.01);
-		while(right-rightEncoder.getDistance()>0){
-			myRobot.tankDrive(1, 0);
-			System.out.println(rightEncoder.getDistance());
-			Timer.delay(0.01);
-
-		}	
+		double CAngle = gyro.getAngle();
 		
+		Timer.delay(0.01);
+		double StopAngle = CAngle + rightangle;
+		if(StopAngle < 0){
+			StopAngle = StopAngle + 360;
+		}
+		double NowAngle = CAngle;
+		if(NowAngle<0){
+			NowAngle = NowAngle+360;
+		}
+		while(NowAngle<StopAngle){
+			myRobot.tankDrive(1, -1);
+			System.out.println("Stop" + StopAngle + ", Now" + NowAngle);
+			Timer.delay(0.01);
+			
+			NowAngle = gyro.getAngle();
+			if(NowAngle<0){
+				NowAngle = NowAngle+360;
+		}	
+		}
+		System.out.println("Stop" + StopAngle + ", Now" + NowAngle);
 		myRobot.tankDrive(0,0);
 		System.out.println("Exit drive right");
 
@@ -115,8 +130,27 @@ public class Robot extends SampleRobot {
 	public void autonomous() {
 			
 			 myRobot.setSafetyEnabled(true);
-		
-			DriveForward(5);
+			 
+		/*
+			DriveLeft(33.75);
+			DriveForward(20);
+			DriveLeft(20);
+			DriveForward(7);
+			DriveLeft(25);
+			DriveForward(7);
+			DriveLeft(22.5);
+			DriveForward(15);
+			DriveLeft(22.5);
+			DriveForward(7);
+			DriveLeft(22.5);
+			DriveForward(7);
+			DriveLeft(22.5);
+			DriveForward(30);
+			*/	
+			DriveRight(45);
+			DriveForward(7);
+			 
+		/*	DriveForward(5);
 			DriveLeft(5);
 			DriveForward(15);
 			DriveLeft(3);
@@ -126,9 +160,18 @@ public class Robot extends SampleRobot {
 			DriveLeft(3);
 			DriveForward(4);
 			DriveLeft(4);
-			DriveForward(37);
+			DriveForward(32);
 			DriveRight(3);
-			
+			DriveForward(10);
+			DriveRight(3);
+			DriveForward(9);
+			DriveRight(3);
+			DriveForward(4);
+			DriveRight(4);
+			DriveForward(3);
+			DriveRight(1);
+			DriveForward(15);
+		*/	
 
 		
 	}
