@@ -175,8 +175,8 @@ public class Robot extends SampleRobot {
 			turnLeft(30, 1);
 			moveForward(15, 1);
 			turnLeft(40, 1);
-			moveForward(10, 1);
-			turnRight(30, 1);
+			moveForward(13, 1);
+		//	turnRight(30, 1);
 			
 						
 			
