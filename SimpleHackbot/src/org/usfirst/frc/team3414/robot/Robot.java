@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +37,7 @@ public class Robot extends SampleRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, true, EncodingType.k4X);
+	private AnalogGyro gyro = new AnalogGyro(2);
 	public Robot() {
 		myRobot.setExpiration(0.1);
 	}
@@ -51,6 +53,7 @@ public class Robot extends SampleRobot {
 				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
 		leftEncoder.setDistancePerPulse(
 				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
+		gyro.calibrate();
 	}
 	public void moveForward(double distance, double speed) { 
 		
@@ -58,12 +61,53 @@ public class Robot extends SampleRobot {
 		Timer.delay(0.1);
 		while(distance-rightEncoder.getDistance()>0){
 			myRobot.tankDrive(speed, speed);
-			Timer.delay(0.1);
+			Timer.delay(0.05);
 		}
 		myRobot.tankDrive(0, 0);
 	
 	}
-	public void turnLeft(double time, double speed) {
+	
+	public void turnLeft(double angle, double speed) {
+		
+		gyro.reset();
+		Timer.delay(0.05);
+		
+		while (angle-gyro.getAngle()>0) {
+		myRobot.tankDrive(-speed, speed);
+		Timer.delay(0.05); 
+	}
+	
+		myRobot.tankDrive(0,0);
+	}
+	
+    public void turnRight(double angle, double speed){
+        System.out.println("turnRight enter");
+        double startAngle = gyro.getAngle();
+        Timer.delay(0.1);
+        double currentAngle = startAngle;
+        //System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
+       
+        while (angle>startAngle-currentAngle) {
+           
+            currentAngle = gyro.getAngle();
+            if(currentAngle < 0) {
+                    currentAngle = currentAngle + 360;
+            if(startAngle < 0) {
+                        startAngle = startAngle + 360;
+                }
+                   
+            }
+            myRobot.tankDrive(speed,-speed);
+            System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle );
+            Timer.delay(0.1);
+        }
+        myRobot.tankDrive(0,0);
+        System.out.println("turnRight exit");
+    }
+	
+	
+	
+	/* public void turnLeft(double time, double speed) {
 		myRobot.tankDrive(-speed, speed); 
 		Timer.delay(time);
 		
@@ -79,7 +123,7 @@ public class Robot extends SampleRobot {
 		
 		myRobot.tankDrive(0,0); 
 	}
-
+*/
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -100,7 +144,26 @@ public class Robot extends SampleRobot {
 		
 		myRobot.setSafetyEnabled(true);
 		
+		
 		moveForward(9, 1);
+		turnRight(60, 1);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*moveForward(9, 1);
 		turnRight(0.75,1);
 		moveForward(18, 1);
 		turnRight(0.75,1);
@@ -118,7 +181,7 @@ public class Robot extends SampleRobot {
 		turnLeft(1 ,1);
 		moveForward(10, 1);
 		turnLeft(1 ,1);
-		moveForward(17, 1);
+		moveForward(17, 1);*/
 
 
 		
