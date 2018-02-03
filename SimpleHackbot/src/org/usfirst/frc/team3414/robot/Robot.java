@@ -60,15 +60,36 @@ public class Robot extends SampleRobot {
 	
 	public void moveForward(double distance, double speed){
 		System.out.println("moveForward enter");
+		double leftEncoderValue = 0;
+		double rightEncoderValue = 0;
+		double encoderDifference = 0;
+		double leftSpeed = speed;
+		double rightSpeed = speed;
 		leftEncoder.reset();
+		rightEncoder.reset();
 		Timer.delay(0.05);
 		
-		System.out.println("distance"+distance+", encoderGetdistance"+leftEncoder.getDistance());
+		//System.out.println("distance"+distance+", encoderGetdistance"+leftEncoder.getDistance());
 		
-		while (distance-leftEncoder.getDistance()>0) {
+		while (distance-leftEncoderValue>0) {
 				
-			myRobot.tankDrive(speed,speed);
-			//System.out.println("distance-leftEncoder.getDistance()>0: " + (distance-leftEncoder.getDistance()));
+			leftEncoderValue = leftEncoder.getDistance();
+			rightEncoderValue = rightEncoder.getDistance();
+			encoderDifference = leftEncoderValue-rightEncoderValue;
+			encoderDifference = encoderDifference * 0.2;
+			
+		System.out.println("leftEncoderValue: " + leftEncoderValue + ", rightEncoderValue: " + rightEncoderValue + ", encoderDifference: " + encoderDifference);
+			
+			if (rightEncoderValue > leftEncoderValue) {
+				rightSpeed = rightSpeed * encoderDifference;
+			}
+			
+			if (leftEncoderValue > rightEncoderValue) {
+				leftSpeed = leftSpeed * encoderDifference;
+			}
+			
+			myRobot.tankDrive(leftSpeed,rightSpeed);
+		//System.out.println("distance-leftEncoder.getDistance()>0: " + (distance-leftEncoder.getDistance()));
 			Timer.delay(0.05);
 		}
 		myRobot.tankDrive(0,0);
@@ -158,7 +179,13 @@ public class Robot extends SampleRobot {
 
 			myRobot.setSafetyEnabled(true);
 			
-			turnLeft(95, 1);
+			moveForward (10, 1);
+			
+			
+			
+			
+	
+/*			turnLeft(95, 1);
 			moveForward(17, 1);
 			turnRight(30, 1);
 			moveForward(10, 1);
@@ -176,8 +203,8 @@ public class Robot extends SampleRobot {
 			moveForward(15, 1);
 			turnLeft(40, 1);
 			moveForward(13, 1);
-		//	turnRight(30, 1);
-			
+			turnRight(30, 1);
+*/			
 						
 			
 			
