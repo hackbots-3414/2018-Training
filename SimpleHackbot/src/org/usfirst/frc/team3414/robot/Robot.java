@@ -60,11 +60,13 @@ public class Robot extends SampleRobot {
 	public void DriveForward(double dist){
 	System.out.println("Enter drive forward");
 		leftEncoder.reset();
-		rightEncoder.reset();
-		
-		while(dist-leftEncoder.getDistance()>0){
+		double distance = leftEncoder.getDistance();
+		Timer.delay(0.1);
+		System.out.println(distance);
+		Timer.delay(0.01);
+		while(dist-distance >0){
 			myRobot.tankDrive(1, 1);
-			System.out.println(leftEncoder.getDistance());
+			System.out.println(distance);	
 			Timer.delay(0.01);
 			
 		}	
@@ -75,7 +77,7 @@ public class Robot extends SampleRobot {
 		System.out.println("Enter drive left");
 
 		gyro.reset();
-		
+		System.out.println(gyro.getAngle());
 		Timer.delay(0.01);
 		while(angle-gyro.getAngle() > 0){
 			myRobot.tankDrive(-1, 1);
@@ -88,9 +90,9 @@ public class Robot extends SampleRobot {
 	}
 	public void DriveRight(double rightangle){
 		System.out.println("Enter drive right");
-		double CAngle = gyro.getAngle();
-		
 		Timer.delay(0.01);
+		double CAngle = gyro.getAngle();
+		Timer.delay(0.1);
 		double StopAngle = CAngle + rightangle;
 		if(StopAngle < 0){
 			StopAngle = StopAngle + 360;
@@ -100,15 +102,14 @@ public class Robot extends SampleRobot {
 			NowAngle = NowAngle+360;
 		}
 		while(NowAngle<StopAngle){
-			myRobot.tankDrive(1, -1);
+			myRobot.tankDrive(0.5, -0.5);
 			System.out.println("Stop" + StopAngle + ", Now" + NowAngle);
-			Timer.delay(0.01);
-			
-			NowAngle = gyro.getAngle();
-			if(NowAngle<0){
+			Timer.delay(0.1);
+		NowAngle =	gyro.getAngle();
+			if(NowAngle<-1){
 				NowAngle = NowAngle+360;
+			}
 		}	
-		}
 		System.out.println("Stop" + StopAngle + ", Now" + NowAngle);
 		myRobot.tankDrive(0,0);
 		System.out.println("Exit drive right");
@@ -131,24 +132,11 @@ public class Robot extends SampleRobot {
 			
 			 myRobot.setSafetyEnabled(true);
 			 
-		/*
-			DriveLeft(33.75);
-			DriveForward(20);
-			DriveLeft(20);
-			DriveForward(7);
-			DriveLeft(25);
-			DriveForward(7);
-			DriveLeft(22.5);
+			DriveForward(5);
+			DriveLeft(40);
 			DriveForward(15);
-			DriveLeft(22.5);
-			DriveForward(7);
-			DriveLeft(22.5);
-			DriveForward(7);
-			DriveLeft(22.5);
-			DriveForward(30);
-			*/	
-			DriveRight(45);
-			DriveForward(7);
+			DriveLeft(30);
+			DriveForward(10);
 			 
 		/*	DriveForward(5);
 			DriveLeft(5);
