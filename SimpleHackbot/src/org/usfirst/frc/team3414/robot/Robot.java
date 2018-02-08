@@ -1,12 +1,14 @@
 package org.usfirst.frc.team3414.robot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -35,7 +37,7 @@ public class Robot extends SampleRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X); 
-
+	private AnalogGyro gyro = new AnalogGyro(2); 
 	
 	public Robot() {
 		myRobot.setExpiration(0.1);
@@ -68,6 +70,51 @@ public class Robot extends SampleRobot {
 				System.out.println("DriveForward exit"+ dist);
 
 	}
+	public void turnLeft(double angle, double speed){
+        System.out.println("turnLeft enter");
+        gyro.reset();
+        Timer.delay(0.05);
+       
+        //System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
+       
+        while (angle-gyro.getAngle()>0) {
+               
+            myRobot.tankDrive(-speed,speed);
+            //System.out.println("angle-gyro.getAngle()>0: " + (angle-gyro.getAngle()));
+            Timer.delay(0.05);
+        }
+        myRobot.tankDrive(0,0);
+        System.out.println("turnLeft exit");
+
+    }
+
+public void turnRight(double angle, double speed){
+        System.out.println("turnRight enter");
+        double startAngle = gyro.getAngle();
+        Timer.delay(0.1);
+        double currentAngle = startAngle;
+        //System.out.println("angle"+angle+", gyroGetangle"+gyro.getAngle());
+       
+        while (angle>startAngle-currentAngle) {
+           
+            currentAngle = gyro.getAngle();
+            if(currentAngle < 0) {
+                    currentAngle = currentAngle + 360;
+            if(startAngle < 0) {
+                        startAngle = startAngle + 360;
+                }
+                   
+            }
+            myRobot.tankDrive(speed,-speed);
+            System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle );
+            Timer.delay(0.1);
+        }
+        myRobot.tankDrive(0,0);
+        System.out.println("turnRight exit");
+    }
+
+
+	/**
 	public void DriveLeft(double left){
 		System.out.println("DriveLeft enter"+ left);
 		leftEncoder.reset();
@@ -111,10 +158,24 @@ public class Robot extends SampleRobot {
 	@Override
 	public void autonomous(){
 		
-		
-		
-	
 		myRobot.setSafetyEnabled(true);
+		DriveForward(5);
+		turnLeft(58,1);
+		DriveForward(25);
+		turnLeft(58,1);
+		DriveForward(15);
+		turnLeft(58,1);
+		DriveForward(20);
+		turnLeft(15,1);
+		DriveForward(25);
+		turnRight(15,1);
+		DriveForward(10);
+		turnRight(55,1);
+		DriveForward(20);
+		turnRight(55,1);
+		DriveForward(20);
+		
+		/**
 		DriveForward(5);
 		DriveLeft(5.25);
 		DriveForward(20);
