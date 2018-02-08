@@ -60,13 +60,13 @@ public class Robot extends SampleRobot {
 	public void DriveForward(double dist){
 	System.out.println("Enter drive forward");
 		leftEncoder.reset();
-		double distance = leftEncoder.getDistance();
+	
 		Timer.delay(0.1);
-		System.out.println(distance);
+		System.out.println(leftEncoder.getDistance());
 		Timer.delay(0.01);
-		while(dist-distance >0){
+		while(dist-leftEncoder.getDistance()>0){
 			myRobot.tankDrive(1, 1);
-			System.out.println(distance);	
+			System.out.println(leftEncoder.getDistance());	
 			Timer.delay(0.01);
 			
 		}	
@@ -75,44 +75,58 @@ public class Robot extends SampleRobot {
 	}
 	public void DriveLeft(double angle){
 		System.out.println("Enter drive left");
-
-		gyro.reset();
-		System.out.println(gyro.getAngle());
+	double CAngle = gyro.getAngle();
+	double stopAngle = CAngle + angle;
+	if(stopAngle < -1){
+		stopAngle = stopAngle + 720;
+	}
+			double nowAngle = CAngle;
+			if(nowAngle<-1){
+				nowAngle = nowAngle+720;
+			} 
+		
+		System.out.println("Now" + nowAngle + ", Stop" + stopAngle);
 		Timer.delay(0.01);
-		while(angle-gyro.getAngle() > 0){
+		while(stopAngle<nowAngle){
 			myRobot.tankDrive(-1, 1);
-			System.out.println(gyro.getAngle());
+			System.out.println("Now" + nowAngle + ", Stop" + stopAngle);
 			Timer.delay(0.01);
 		}	
+		System.out.println("Now" + nowAngle + ", Stop" + stopAngle);
 		myRobot.tankDrive(0,0);
 		System.out.println("Exit drive left");
 
 	}
 	public void DriveRight(double rightangle){
 		System.out.println("Enter drive right");
-		Timer.delay(0.01);
 		double CAngle = gyro.getAngle();
-		Timer.delay(0.1);
 		double StopAngle = CAngle + rightangle;
-		if(StopAngle < 0){
-			StopAngle = StopAngle + 360;
+		if(StopAngle < -1){
+			StopAngle = StopAngle + 720;
 		}
-		double NowAngle = CAngle;
-		if(NowAngle<0){
-			NowAngle = NowAngle+360;
-		}
-		while(NowAngle<StopAngle){
-			myRobot.tankDrive(0.5, -0.5);
-			System.out.println("Stop" + StopAngle + ", Now" + NowAngle);
-			Timer.delay(0.1);
-		NowAngle =	gyro.getAngle();
-			if(NowAngle<-1){
-				NowAngle = NowAngle+360;
+			double NowAngle = CAngle;
+			if(NowAngle<0){
+				NowAngle = NowAngle+720;
 			}
-		}	
-		System.out.println("Stop" + StopAngle + ", Now" + NowAngle);
-		myRobot.tankDrive(0,0);
-		System.out.println("Exit drive right");
+		Timer.delay(0.01);
+		
+		Timer.delay(0.1);
+		
+
+		
+		
+		while(StopAngle<NowAngle){
+			
+		
+			myRobot.tankDrive(0.5, -0.5);
+			System.out.println("Now" + NowAngle + ", Stop" + StopAngle);
+			Timer.delay(0.1);
+	
+			}
+		
+	myRobot.tankDrive(0,0);
+	System.out.println("Exit drive right");
+	System.out.println("Stop" + NowAngle + ", Now" + StopAngle);
 
 	}
 	
@@ -134,10 +148,20 @@ public class Robot extends SampleRobot {
 			 
 			DriveForward(5);
 			DriveLeft(40);
+			DriveRight(40);
+			
+			/*DriveForward(15);
+			DriveLeft(30);
 			DriveForward(15);
 			DriveLeft(30);
 			DriveForward(10);
-			 
+			DriveLeft(45);
+			DriveForward(6);
+			DriveLeft(15);
+			DriveForward(25);
+			DriveRight(22);
+			DriveForward(10);
+			DriveRight(50);
 		/*	DriveForward(5);
 			DriveLeft(5);
 			DriveForward(15);
