@@ -73,63 +73,42 @@ public class Robot extends SampleRobot {
 			myRobot.tankDrive(0,0);
 			System.out.println("Exit drive forward");
 	}
-	public void DriveLeft(double angle){
-		System.out.println("Enter drive left");
-	double CAngle = gyro.getAngle();
-	double stopAngle = CAngle + angle;
-	if(stopAngle < -1){
-		stopAngle = stopAngle + 720;
-	}
-			double nowAngle = CAngle;
-			if(nowAngle<-1){
-				nowAngle = nowAngle+720;
-			} 
+	public void turnLeft(double angle, double speed){
+		System.out.println("turnLeft enter");
+		gyro.reset();
+		Timer.delay(0.05);
 		
-		System.out.println("Now" + nowAngle + ", Stop" + stopAngle);
-		Timer.delay(0.01);
-		while(stopAngle<nowAngle){
-			myRobot.tankDrive(-1, 1);
-			System.out.println("Now" + nowAngle + ", Stop" + stopAngle);
-			Timer.delay(0.01);
-		}	
-		System.out.println("Now" + nowAngle + ", Stop" + stopAngle);
-		myRobot.tankDrive(0,0);
-		System.out.println("Exit drive left");
-
-	}
-	public void DriveRight(double rightangle){
-		System.out.println("Enter drive right");
-		double CAngle = gyro.getAngle();
-		double StopAngle = CAngle + rightangle;
-		if(StopAngle < -1){
-			StopAngle = StopAngle + 720;
+		while (angle-gyro.getAngle()>0) {
+			
+			myRobot.tankDrive(-speed, speed);
+			Timer.delay(0.05);
 		}
-			double NowAngle = CAngle;
-			if(NowAngle<0){
-				NowAngle = NowAngle+720;
-			}
-		Timer.delay(0.01);
+		myRobot.tankDrive(0, 0);
+		System.out.println("turnLeft exit");
+	}
+public void turnRight(double angle, double speed){
+	System.out.println("turnRight enter");
+	double startAngle = gyro.getAngle();
+	Timer.delay(0.01);
+	double currentAngle = startAngle;	
+	while (angle>startAngle-currentAngle){
 		
+		currentAngle = gyro.getAngle();
+		if(currentAngle < 0) {
+				currentAngle = currentAngle + 360;
+		if(startAngle < 0) {
+					startAngle = startAngle + 360;
+		}
+		
+		}
+		myRobot.tankDrive(speed, -speed);
+		System.out.println("angle: " +angle+", currentAngle: " + currentAngle + ", startAngle: " + startAngle );
 		Timer.delay(0.1);
 		
-
-		
-		
-		while(StopAngle<NowAngle){
-			
-		
-			myRobot.tankDrive(0.5, -0.5);
-			System.out.println("Now" + NowAngle + ", Stop" + StopAngle);
-			Timer.delay(0.1);
-	
-			}
-		
-	myRobot.tankDrive(0,0);
-	System.out.println("Exit drive right");
-	System.out.println("Stop" + NowAngle + ", Now" + StopAngle);
-
 	}
-	
+	myRobot.tankDrive(0, 0);
+	System.out.println("turnRight exit");
+}
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -145,43 +124,39 @@ public class Robot extends SampleRobot {
 	public void autonomous() {
 			
 			 myRobot.setSafetyEnabled(true);
-			 
-			DriveForward(5);
-			DriveLeft(40);
-			DriveRight(40);
-			
-			/*DriveForward(15);
-			DriveLeft(30);
+		
 			DriveForward(15);
-			DriveLeft(30);
+			turnLeft(30, 1);
+			DriveForward(15);
+			turnLeft(30, 1);
 			DriveForward(10);
-			DriveLeft(45);
+			turnLeft(45, 1);
 			DriveForward(6);
-			DriveLeft(15);
+			turnLeft(15, 1);
 			DriveForward(25);
-			DriveRight(22);
+			turnRight(22, 1);
 			DriveForward(10);
-			DriveRight(50);
+			turnRight(50, 1);
 		/*	DriveForward(5);
-			DriveLeft(5);
+			turnLeft(5);
 			DriveForward(15);
-			DriveLeft(3);
+			turnLeft(3);
 			DriveForward(7);
-			DriveLeft(3);
+			turnLeft(3);
 			DriveForward(7);
-			DriveLeft(3);
+			turnLeft(3);
 			DriveForward(4);
-			DriveLeft(4);
+			turnLeft(4);
 			DriveForward(32);
-			DriveRight(3);
+			turnRight(3);
 			DriveForward(10);
-			DriveRight(3);
+			turnRight(3);
 			DriveForward(9);
-			DriveRight(3);
+			turnRight(3);
 			DriveForward(4);
-			DriveRight(4);
+			turnRight(4);
 			DriveForward(3);
-			DriveRight(1);
+			turnRight(1);
 			DriveForward(15);
 		*/	
 
