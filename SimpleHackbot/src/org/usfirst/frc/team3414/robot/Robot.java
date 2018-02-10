@@ -54,24 +54,36 @@ public class Robot extends SampleRobot {
 				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
 		leftEncoder.setDistancePerPulse(
 				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
-		
-		
 	}
-	public void DriveForward(double dist){
-	System.out.println("Enter drive forward");
-		leftEncoder.reset();
+		
 	
-		Timer.delay(0.1);
-		System.out.println(leftEncoder.getDistance());
-		Timer.delay(0.01);
+	public void DriveStraight(double dist, double speed){
+		leftEncoder.reset();
+		Timer.delay(0.0000001);
+		rightEncoder.reset();
+		Timer.delay(0.0000001);
+		double leftDist = leftEncoder.getDistance();
+		double rightDist = rightEncoder.getDistance();
+	/*	double leftSpeed = speed;
+	 
+		double rightSpeed = speed;
+		*/
+		double LeftRightDifference = leftDist - rightDist;
+		double RightLeftDifference = rightDist - leftDist;
 		while(dist-leftEncoder.getDistance()>0){
-			myRobot.tankDrive(1, 1);
-			System.out.println(leftEncoder.getDistance());	
-			Timer.delay(0.01);
-			
-		}	
-			myRobot.tankDrive(0,0);
-			System.out.println("Exit drive forward");
+		while(leftEncoder.getDistance()>rightEncoder.getDistance()){
+		myRobot.tankDrive(LeftRightDifference * 0.8 , LeftRightDifference * 0.8);	
+			System.out.println("Left" + leftEncoder.getDistance()+ ", Right"+rightEncoder.getDistance());
+		}
+		while(leftEncoder.getDistance()<rightEncoder.getDistance()){
+			myRobot.tankDrive(RightLeftDifference * 0.8, RightLeftDifference * 0.8);
+			System.out.println("Left" + leftEncoder.getDistance()+ ", Right"+rightEncoder.getDistance());
+
+		}
+		myRobot.tankDrive(1, 1);
+		Timer.delay(0.0000001);
+		System.out.println("Left" + leftEncoder.getDistance()+ ", Right"+rightEncoder.getDistance());
+	}
 	}
 	public void turnLeft(double angle, double speed){
 		System.out.println("turnLeft enter");
@@ -125,18 +137,7 @@ public void turnRight(double angle, double speed){
 			
 			 myRobot.setSafetyEnabled(true);
 		
-			DriveForward(15);
-			turnLeft(30, 1);
-			DriveForward(15);
-			turnLeft(30, 1);
-			DriveForward(10);
-			turnLeft(45, 1);
-			DriveForward(6);
-			turnLeft(15, 1);
-			DriveForward(25);
-			turnRight(22, 1);
-			DriveForward(10);
-			turnRight(50, 1);
+			DriveStraight(10, 1);
 		/*	DriveForward(5);
 			turnLeft(5);
 			DriveForward(15);
