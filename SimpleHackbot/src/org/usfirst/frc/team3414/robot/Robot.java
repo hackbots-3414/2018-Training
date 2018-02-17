@@ -38,6 +38,7 @@ public class Robot extends SampleRobot {
 	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
 	public AnalogGyro gyro = new AnalogGyro(2);
+
 	public Robot() {
 		myRobot.setExpiration(0.1);
 	}
@@ -47,7 +48,7 @@ public class Robot extends SampleRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto modes", chooser);
-		
+
 		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 		rightEncoder.setDistancePerPulse(
@@ -55,68 +56,75 @@ public class Robot extends SampleRobot {
 		leftEncoder.setDistancePerPulse(
 				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
 	}
-		
-	
-	public void DriveStraight(double dist, double speed){
+
+	public void DriveStraight(double dist, double speed) {
 		leftEncoder.reset();
 		Timer.delay(0.0000001);
 		rightEncoder.reset();
 		Timer.delay(0.0000001);
 
-		
-		while(dist-leftEncoder.getDistance()>0){
-			myRobot.tankDrive(speed, speed);
-			
-		
-		while(leftEncoder.getDistance()>rightEncoder.getDistance()){
-			 myRobot.tankDrive(speed, speed*0.99);
-			System.out.println("1: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
-		}
+		while (dist - leftEncoder.getDistance() > 0) {
 
-		
-		 while(leftEncoder.getDistance()<rightEncoder.getDistance()){
-			 myRobot.tankDrive(speed*0.99, speed);
-			System.out.println("2: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
+			if(leftEncoder.getDistance() > rightEncoder.getDistance()) {
+				myRobot.tankDrive(speed, speed * 0.99);
+				System.out.println("1: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
+			}
+			Timer.delay(0.0000001);
+
+			myRobot.tankDrive(0, 0);
+
+			if (leftEncoder.getDistance() < rightEncoder.getDistance()) {
+				myRobot.tankDrive(speed * 0.99, speed);
+				System.out.println("2: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
+				Timer.delay(0.0000001);
+			}
+			myRobot.tankDrive(0, 0);
+			Timer.delay(0.0000001);
+
 		}
-		}
-myRobot.tankDrive(0, 0);
-		}
-	void turnLeft(double angle, double speed){
+		Timer.delay(0.000001);
+		myRobot.tankDrive(0, 0);
+
+	}
+
+	void turnLeft(double angle, double speed) {
 		System.out.println("turnLeft enter");
 		gyro.reset();
 		Timer.delay(0.05);
-		
-		while (angle-gyro.getAngle()>0) {
-			
+
+		while (angle - gyro.getAngle() > 0) {
+
 			myRobot.tankDrive(-speed, speed);
 			Timer.delay(0.05);
 		}
 		myRobot.tankDrive(0, 0);
 		System.out.println("turnLeft exit");
 	}
-public void turnRight(double angle, double speed){
-	System.out.println("turnRight enter");
-	double startAngle = gyro.getAngle();
-	Timer.delay(0.01);
-	double currentAngle = startAngle;	
-	while (angle>startAngle-currentAngle){
-		
-		currentAngle = gyro.getAngle();
-		if(currentAngle < 0) {
+
+	public void turnRight(double angle, double speed) {
+		System.out.println("turnRight enter");
+		double startAngle = gyro.getAngle();
+		Timer.delay(0.01);
+		double currentAngle = startAngle;
+		while (angle > startAngle - currentAngle) {
+
+			currentAngle = gyro.getAngle();
+			if (currentAngle < 0) {
 				currentAngle = currentAngle + 360;
-		if(startAngle < 0) {
+				if (startAngle < 0) {
 					startAngle = startAngle + 360;
+				}
+
+			}
+			myRobot.tankDrive(speed, -speed);
+			System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle);
+			Timer.delay(0.1);
+
 		}
-		
-		}
-		myRobot.tankDrive(speed, -speed);
-		System.out.println("angle: " +angle+", currentAngle: " + currentAngle + ", startAngle: " + startAngle );
-		Timer.delay(0.1);
-		
+		myRobot.tankDrive(0, 0);
+		System.out.println("turnRight exit");
 	}
-	myRobot.tankDrive(0, 0);
-	System.out.println("turnRight exit");
-}
+
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -130,51 +138,37 @@ public void turnRight(double angle, double speed){
 	 */
 	@Override
 	public void autonomous() {
-			
-			 myRobot.setSafetyEnabled(true);
-		
-			DriveStraight(10, 0.75);
-		/*	DriveForward(5);
-			turnLeft(5);
-			DriveForward(15);
-			turnLeft(3);
-			DriveForward(7);
-			turnLeft(3);
-			DriveForward(7);
-			turnLeft(3);
-			DriveForward(4);
-			turnLeft(4);
-			DriveForward(32);
-			turnRight(3);
-			DriveForward(10);
-			turnRight(3);
-			DriveForward(9);
-			turnRight(3);
-			DriveForward(4);
-			turnRight(4);
-			DriveForward(3);
-			turnRight(1);
-			DriveForward(15);
-		*/	
 
+		myRobot.setSafetyEnabled(true);
+
+		DriveStraight(5,1);
+		turnLeft(45, 1);
+		DriveStraight(10,1);
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
-	
-	/**
-	 * Runs the motors with arcade steering.
+	 /* Runs the motors with arcade steering.
 	 */
 	@Override
 	public void operatorControl() {
 		myRobot.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
-			/*myRobot.arcadeDrive(stick); // drive with arcade 		myRobot.tankDrive(0, 0);
-style (use right
-										// stick) */
+			/*
+			 * myRobot.arcadeDrive(stick); // drive with arcade
+			 * myRobot.tankDrive(0, 0); style (use right // stick)
+			 */
 			final String customAuto = "My Auto";
 			myRobot.tankDrive(stick.getRawAxis(3), stick.getRawAxis(1));
 			Timer.delay(0.005); // wait for a motor update time
 		}
-		
+
 	}
 
 	/**
@@ -184,6 +178,3 @@ style (use right
 	public void test() {
 	}
 }
-
-
-
