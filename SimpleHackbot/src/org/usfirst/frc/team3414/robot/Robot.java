@@ -62,30 +62,26 @@ public class Robot extends SampleRobot {
 		Timer.delay(0.0000001);
 		rightEncoder.reset();
 		Timer.delay(0.0000001);
-		double leftDist = leftEncoder.getDistance();
-		double rightDist = rightEncoder.getDistance();
-	/*	double leftSpeed = speed;
-	 
-		double rightSpeed = speed;
-		*/
-		double LeftRightDifference = leftDist - rightDist;
-		double RightLeftDifference = rightDist - leftDist;
-		while(dist-leftEncoder.getDistance()>0){
-		while(leftEncoder.getDistance()>rightEncoder.getDistance()){
-		myRobot.tankDrive(LeftRightDifference * 0.8 , LeftRightDifference * 0.8);	
-			System.out.println("Left" + leftEncoder.getDistance()+ ", Right"+rightEncoder.getDistance());
-		}
-		while(leftEncoder.getDistance()<rightEncoder.getDistance()){
-			myRobot.tankDrive(RightLeftDifference * 0.8, RightLeftDifference * 0.8);
-			System.out.println("Left" + leftEncoder.getDistance()+ ", Right"+rightEncoder.getDistance());
 
+		
+		while(dist-leftEncoder.getDistance()>0){
+			myRobot.tankDrive(speed, speed);
+			
+		
+		while(leftEncoder.getDistance()>rightEncoder.getDistance()){
+			 myRobot.tankDrive(speed, speed*0.99);
+			System.out.println("1: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
 		}
-		myRobot.tankDrive(1, 1);
-		Timer.delay(0.0000001);
-		System.out.println("Left" + leftEncoder.getDistance()+ ", Right"+rightEncoder.getDistance());
-	}
-	}
-	public void turnLeft(double angle, double speed){
+
+		
+		 while(leftEncoder.getDistance()<rightEncoder.getDistance()){
+			 myRobot.tankDrive(speed*0.99, speed);
+			System.out.println("2: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
+		}
+		}
+myRobot.tankDrive(0, 0);
+		}
+	void turnLeft(double angle, double speed){
 		System.out.println("turnLeft enter");
 		gyro.reset();
 		Timer.delay(0.05);
@@ -137,7 +133,7 @@ public void turnRight(double angle, double speed){
 			
 			 myRobot.setSafetyEnabled(true);
 		
-			DriveStraight(10, 1);
+			DriveStraight(10, 0.75);
 		/*	DriveForward(5);
 			turnLeft(5);
 			DriveForward(15);
@@ -174,6 +170,7 @@ public void turnRight(double angle, double speed){
 			/*myRobot.arcadeDrive(stick); // drive with arcade 		myRobot.tankDrive(0, 0);
 style (use right
 										// stick) */
+			final String customAuto = "My Auto";
 			myRobot.tankDrive(stick.getRawAxis(3), stick.getRawAxis(1));
 			Timer.delay(0.005); // wait for a motor update time
 		}
