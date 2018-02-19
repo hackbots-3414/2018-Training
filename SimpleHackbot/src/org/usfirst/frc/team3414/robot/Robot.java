@@ -183,7 +183,7 @@ public class Robot extends SampleRobot {
 			myRobot.setSafetyEnabled(true);
 			
 
-	
+		
 			turnLeft(95, 1);
 			moveForward(17, 1);
 			turnRight(30, 1);
@@ -198,11 +198,11 @@ public class Robot extends SampleRobot {
 			moveForward(8, 1);
 			turnLeft(15, 1);
 			moveForward(10, 1);
-			turnLeft(30, 1);
+			turnLeft(25, 1);
 			moveForward(7, 1);
 			turnLeft(30, 1);
 			moveForward(15, 1);
-			
+	
 			
 /*      	turnLeft(95, 1);
 			moveForward(17, 1);
