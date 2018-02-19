@@ -35,7 +35,7 @@ public class Robot extends SampleRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	SendableChooser<String> chooser = new SendableChooser<>();
-	private Encoder rightEncoder = new Encoder(1, 2, true, EncodingType.k4X);
+	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
 	public AnalogGyro gyro = new AnalogGyro(2);
 	
@@ -72,13 +72,15 @@ public class Robot extends SampleRobot {
 		//System.out.println("distance"+distance+", encoderGetdistance"+leftEncoder.getDistance());
 		
 		while (distance-leftEncoderValue>0) {
-				
+			leftSpeed = speed;
+			rightSpeed = speed;	
 			leftEncoderValue = leftEncoder.getDistance();
 			rightEncoderValue = rightEncoder.getDistance();
 			encoderDifference = leftEncoderValue-rightEncoderValue;
-			encoderDifference = encoderDifference * 0.2;
+			encoderDifference = encoderDifference * .01;
+			encoderDifference = Math.abs((1-encoderDifference));
 			
-		System.out.println("leftEncoderValue: " + leftEncoderValue + ", rightEncoderValue: " + rightEncoderValue + ", encoderDifference: " + encoderDifference);
+		//System.out.println("leftEncoderValue: " + leftEncoderValue + ", rightEncoderValue: " + rightEncoderValue + ", encoderDifference: " + encoderDifference);
 			
 			if (rightEncoderValue > leftEncoderValue) {
 				rightSpeed = rightSpeed * encoderDifference;
@@ -89,6 +91,7 @@ public class Robot extends SampleRobot {
 			}
 			
 			myRobot.tankDrive(leftSpeed,rightSpeed);
+		//System.out.println("leftSpeed: " + leftSpeed + "rightSpeed: " + rightSpeed);
 		//System.out.println("distance-leftEncoder.getDistance()>0: " + (distance-leftEncoder.getDistance()));
 			Timer.delay(0.05);
 		}
@@ -179,13 +182,29 @@ public class Robot extends SampleRobot {
 
 			myRobot.setSafetyEnabled(true);
 			
-			moveForward (10, 1);
-			
-			
-			
-			
+
 	
-/*			turnLeft(95, 1);
+			turnLeft(95, 1);
+			moveForward(17, 1);
+			turnRight(30, 1);
+			moveForward(10, 1);
+			turnRight(30, 1);
+			moveForward(10, 1);
+			turnRight(30, 1);
+			moveForward(5, 1);
+			turnRight(10, 1);
+			moveForward(35, 1);
+			turnLeft(30, 1);
+			moveForward(8, 1);
+			turnLeft(15, 1);
+			moveForward(10, 1);
+			turnLeft(30, 1);
+			moveForward(7, 1);
+			turnLeft(30, 1);
+			moveForward(15, 1);
+			
+			
+/*      	turnLeft(95, 1);
 			moveForward(17, 1);
 			turnRight(30, 1);
 			moveForward(10, 1);
@@ -204,7 +223,7 @@ public class Robot extends SampleRobot {
 			turnLeft(40, 1);
 			moveForward(13, 1);
 			turnRight(30, 1);
-*/			
+*/		
 						
 			
 			
