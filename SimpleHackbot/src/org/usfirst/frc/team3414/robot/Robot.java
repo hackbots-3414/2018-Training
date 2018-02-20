@@ -71,14 +71,14 @@ public class Robot extends SampleRobot {
 			}
 			Timer.delay(0.0000001);
 
-			myRobot.tankDrive(0, 0);
-
+			
 			if (leftEncoder.getDistance() < rightEncoder.getDistance()) {
 				myRobot.tankDrive(speed * 0.99, speed);
 				System.out.println("2: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
 				Timer.delay(0.0000001);
+				
 			}
-			myRobot.tankDrive(0, 0);
+			
 			Timer.delay(0.0000001);
 
 		}
@@ -119,7 +119,7 @@ public class Robot extends SampleRobot {
 			myRobot.tankDrive(speed, -speed);
 			System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle);
 			Timer.delay(0.1);
-
+				
 		}
 		myRobot.tankDrive(0, 0);
 		System.out.println("turnRight exit");
@@ -141,17 +141,21 @@ public class Robot extends SampleRobot {
 
 		myRobot.setSafetyEnabled(true);
 
-		DriveStraight(5,1);
+		/*DriveStraight(5, 1);
 		turnLeft(45, 1);
-		DriveStraight(10,1);
-		
-		
-		
-		
-		
-		
-		
-		
+		DriveStraight(20,1);
+		turnLeft(15,1);
+		DriveStraight(5,1);
+		turnLeft(20,1);
+		DriveStraight(5, 1);
+		turnLeft(9,1);
+		DriveStraight(15, 1);
+		turnLeft(50, 1);
+		DriveStraight(5, 1);
+		turnLeft(9,1);
+		DriveStraight(30, 1);
+		*/
+		turnRight(9, 1);
 		
 	}
 	 /* Runs the motors with arcade steering.
