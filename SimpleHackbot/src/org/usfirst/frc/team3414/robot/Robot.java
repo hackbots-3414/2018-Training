@@ -56,7 +56,9 @@ public class Robot extends SampleRobot {
 		leftEncoder.setDistancePerPulse(
 				(4.0/* in */ * Math.PI) / (360.0 * 12.0/* in/ft */));
 	}
-	public void DriveForward(double dist){
+	
+/*
+public void DriveForward(double dist){
 		System.out.println("DriveForward enter"+ dist);
 		leftEncoder.reset();
 		rightEncoder.reset();
@@ -67,9 +69,38 @@ public class Robot extends SampleRobot {
 				Timer.delay(0.01);
 		}
 				myRobot.tankDrive(0, 0);
-				System.out.println("DriveForward exit"+ dist);
+				System.out.println("DriveForward exit"+ dist); */
 
+	public void DriveStraight(double dist, double speed){
+		leftEncoder.reset();
+		Timer.delay(0.0000001);
+		rightEncoder.reset();
+		Timer.delay(0.0000001);
+
+		
+		while(dist-leftEncoder.getDistance()>0){
+			myRobot.tankDrive(speed, speed);
+			
+		
+			if(leftEncoder.getDistance()>rightEncoder.getDistance()){
+			 myRobot.tankDrive(speed, speed*0.99);
+			System.out.println("1: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
+		}
+			Timer.delay(0.0000001);
+		
+			myRobot.tankDrive(0, 0);
+			
+			if(leftEncoder.getDistance()<rightEncoder.getDistance()){
+				myRobot.tankDrive(speed*0.99, speed);
+				System.out.println("2: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
+			}
+			myRobot.tankDrive(0, 0);	
+			Timer.delay(0.000001);
+		}
+		Timer.delay(0.000001);
+		myRobot.tankDrive(0, 0);
 	}
+	
 	public void turnLeft(double angle, double speed){
         System.out.println("turnLeft enter");
         gyro.reset();
@@ -158,6 +189,18 @@ public void turnRight(double angle, double speed){
 	@Override
 	public void autonomous(){
 		
+		myRobot.setSafetyEnabled(true);
+		DriveStraight(5,1);
+		turnLeft(45, 1);
+		DriveStraight(20, 1);
+		turnLeft(15, 1);
+		DriveStraight(5, 1);
+		turnLeft(20, 1);
+		DriveStraight(15, 1);
+		turn
+		
+		
+		/**
 		myRobot.setSafetyEnabled(true);
 		DriveForward(5);
 		turnLeft(58,1);
