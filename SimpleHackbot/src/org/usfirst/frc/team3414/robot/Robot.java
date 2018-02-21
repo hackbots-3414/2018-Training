@@ -93,6 +93,7 @@ public class Robot extends SampleRobot {
 		Timer.delay(0.05);
 
 		while (angle - gyro.getAngle() > 0) {
+			System.out.println(gyro.getAngle());
 
 			myRobot.tankDrive(-speed, speed);
 			Timer.delay(0.05);
@@ -102,16 +103,18 @@ public class Robot extends SampleRobot {
 	}
 
 	public void turnRight(double angle, double speed) {
-		System.out.println("turnRight enter");
 		double startAngle = gyro.getAngle();
 		Timer.delay(0.01);
 		double currentAngle = startAngle;
-		while (angle > startAngle - currentAngle) {
+		System.out.println("turnRight enter");
+		System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle);
+		
+		while (angle < currentAngle - startAngle) {
 
 			currentAngle = gyro.getAngle();
-			if (currentAngle < 0) {
+			if (currentAngle < 1) {
 				currentAngle = currentAngle + 360;
-				if (startAngle < 0) {
+				if (startAngle < 1) {
 					startAngle = startAngle + 360;
 				}
 
@@ -141,7 +144,7 @@ public class Robot extends SampleRobot {
 
 		myRobot.setSafetyEnabled(true);
 
-		/*DriveStraight(5, 1);
+		DriveStraight(5, 1);
 		turnLeft(45, 1);
 		DriveStraight(20,1);
 		turnLeft(15,1);
@@ -153,9 +156,10 @@ public class Robot extends SampleRobot {
 		turnLeft(50, 1);
 		DriveStraight(5, 1);
 		turnLeft(9,1);
-		DriveStraight(30, 1);
-		*/
-		turnRight(9, 1);
+		DriveStraight(25, 1);
+		turnRight (40, 1);
+		DriveStraight (10,1);
+		turnRight (20, 1);
 		
 	}
 	 /* Runs the motors with arcade steering.
