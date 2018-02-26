@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -29,7 +31,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * be much more difficult under this system. Use IterativeRobot or Command-Based
  * instead if you're new.
  */
-public class Robot extends SampleRobot {
+public class Robot extends SampleRobot implements PIDOutput{
+	@Override
+	public void pidWrite(double output) {
+		// TODO Auto-generated method stub
+		myRobot.arcadeDrive(0, output);
+	}
+
 	RobotDrive myRobot = new RobotDrive(1, 2);
 	XboxController stick = new XboxController(0);
 	final String defaultAuto = "Default";
@@ -38,7 +46,7 @@ public class Robot extends SampleRobot {
 	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
 	public AnalogGyro gyro = new AnalogGyro(2);
-
+	private PIDController TurnController = new PIDController(.02, 0, 0, gyro, this);
 	public Robot() {
 		myRobot.setExpiration(0.1);
 	}
@@ -86,8 +94,21 @@ public class Robot extends SampleRobot {
 		myRobot.tankDrive(0, 0);
 
 	}
-
-	void turnLeft(double angle, double speed) {
+	void Turn(double degrees) {
+		gyro.reset();
+		TurnController.setSetpoint(degrees);
+		TurnController.setInputRange(-360.0, 360.0);
+		TurnController.setOutputRange(-.75, .75);
+		TurnController.setAbsoluteTolerance(1);
+		TurnController.setContinuous();
+		TurnController.enable();
+		while(TurnController.onTarget()){
+			Timer.delay(0.);
+			
+		}
+		TurnController.disable();
+	}
+	/*void turnLeft(double angle, double speed) {
 		System.out.println("turnLeft enter");
 		gyro.reset();
 		Timer.delay(0.05);
@@ -95,7 +116,22 @@ public class Robot extends SampleRobot {
 		while (angle - gyro.getAngle() > 0) {
 			System.out.println(gyro.getAngle());
 
-			myRobot.tankDrive(-speed, speed);
+			myRobot.tankDrive(-speed, speed);	turnLeft(45, 1);
+		DriveStraight(20,1);
+		turnLeft(15,1);
+		DriveStraight(5,1);
+		turnLeft(20,1);
+		DriveStraight(5, 1);
+		turnLeft(9,1);
+		DriveStraight(15, 1);
+		turnLeft(50, 1);
+		DriveStraight(5, 1);
+		turnLeft(9,1);
+		DriveStraight(25, 1);
+		turnRight (40, 1);
+		DriveStraight (10,1);
+		turnRight (20, 1);
+		
 			Timer.delay(0.05);
 		}
 		myRobot.tankDrive(0, 0);
@@ -127,7 +163,7 @@ public class Robot extends SampleRobot {
 		myRobot.tankDrive(0, 0);
 		System.out.println("turnRight exit");
 	}
-
+*/
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -144,23 +180,7 @@ public class Robot extends SampleRobot {
 
 		myRobot.setSafetyEnabled(true);
 
-		DriveStraight(5, 1);
-		turnLeft(45, 1);
-		DriveStraight(20,1);
-		turnLeft(15,1);
-		DriveStraight(5,1);
-		turnLeft(20,1);
-		DriveStraight(5, 1);
-		turnLeft(9,1);
-		DriveStraight(15, 1);
-		turnLeft(50, 1);
-		DriveStraight(5, 1);
-		turnLeft(9,1);
-		DriveStraight(25, 1);
-		turnRight (40, 1);
-		DriveStraight (10,1);
-		turnRight (20, 1);
-		
+		Turn(90);
 	}
 	 /* Runs the motors with arcade steering.
 	 */
