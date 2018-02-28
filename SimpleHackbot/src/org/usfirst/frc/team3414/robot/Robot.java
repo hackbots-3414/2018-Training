@@ -32,12 +32,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * instead if you're new.
  */
 public class Robot extends SampleRobot implements PIDOutput{
-	@Override
-	public void pidWrite(double output) {
-		// TODO Auto-generated method stub
-		myRobot.arcadeDrive(0, output);
-	}
-
+	
+	static final double PID_P = .05;
+	static final double PID_I = 0;
+	static final double PID_D = 0;
 	RobotDrive myRobot = new RobotDrive(1, 2);
 	XboxController stick = new XboxController(0);
 	final String defaultAuto = "Default";
@@ -46,7 +44,7 @@ public class Robot extends SampleRobot implements PIDOutput{
 	private Encoder rightEncoder = new Encoder(1, 2, false, EncodingType.k4X);
 	private Encoder leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
 	public AnalogGyro gyro = new AnalogGyro(2);
-	private PIDController TurnController = new PIDController(.02, 0, 0, gyro, this);
+	private PIDController TurnController = new PIDController(PID_P, PID_I, PID_D, gyro, this);
 	public Robot() {
 		myRobot.setExpiration(0.1);
 	}
@@ -94,55 +92,61 @@ public class Robot extends SampleRobot implements PIDOutput{
 		myRobot.tankDrive(0, 0);
 
 	}
+	@Override
+	public void pidWrite(double output) {
+		// TODO Auto-generated method stub
+		myRobot.arcadeDrive(0, output);
+		System.out.println("pidWrite "+ output);
+	}
+	
 	void Turn(double degrees) {
 		gyro.reset();
+		TurnController.reset();
+		
 		TurnController.setSetpoint(degrees);
-		TurnController.setInputRange(-360.0, 360.0);
-		TurnController.setOutputRange(-.75, .75);
-		TurnController.setAbsoluteTolerance(1);
-		TurnController.setContinuous();
+		TurnController.setInputRange(-180.0, 180.0);
+		//TurnController.setOutputRange(-.75, .75);
+		TurnController.setAbsoluteTolerance(2.5);
+		TurnController.setContinuous(true);
+		TurnController.setPID(PID_P, PID_I, PID_D, 0.5);
+		Timer.delay(0.01);
 		TurnController.enable();
-		while(TurnController.onTarget()){
-			Timer.delay(0.);
+		
+		while(!TurnController.onTarget()){
+			Timer.delay(0.1);
+			//System.out.println(TurnController.getError());
 			
 		}
+		
 		TurnController.disable();
+		myRobot.tankDrive(0, 0);
 	}
-	/*void turnLeft(double angle, double speed) {
-		System.out.println("turnLeft enter");
+	
+	/*void Turn(double degrees) {
+		gyro.reset();
+		while(true){
+			myRobot.tankDrive(1, 0);
+			System.out.println(gyro.getAngle());
+			Timer.delay(0.01);
+		}
+	}
+	*/
+	/*void Turn(double angle, double speed) {
+		System.out.println("Turn enter");
 		gyro.reset();
 		Timer.delay(0.05);
 
 		while (angle - gyro.getAngle() > 0) {
 			System.out.println(gyro.getAngle());
+}
+*/
 
-			myRobot.tankDrive(-speed, speed);	turnLeft(45, 1);
-		DriveStraight(20,1);
-		turnLeft(15,1);
-		DriveStraight(5,1);
-		turnLeft(20,1);
-		DriveStraight(5, 1);
-		turnLeft(9,1);
-		DriveStraight(15, 1);
-		turnLeft(50, 1);
-		DriveStraight(5, 1);
-		turnLeft(9,1);
-		DriveStraight(25, 1);
-		turnRight (40, 1);
-		DriveStraight (10,1);
-		turnRight (20, 1);
-		
-			Timer.delay(0.05);
-		}
-		myRobot.tankDrive(0, 0);
-		System.out.println("turnLeft exit");
-	}
 
-	public void turnRight(double angle, double speed) {
+	public void TurnRight(double angle, double speed) {
 		double startAngle = gyro.getAngle();
 		Timer.delay(0.01);
 		double currentAngle = startAngle;
-		System.out.println("turnRight enter");
+		System.out.println("TurnRight enter");
 		System.out.println("angle: " + angle + ", currentAngle: " + currentAngle + ", startAngle: " + startAngle);
 		
 		while (angle < currentAngle - startAngle) {
@@ -161,9 +165,9 @@ public class Robot extends SampleRobot implements PIDOutput{
 				
 		}
 		myRobot.tankDrive(0, 0);
-		System.out.println("turnRight exit");
+		System.out.println("TurnRight exit");
 	}
-*/
+
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -180,7 +184,10 @@ public class Robot extends SampleRobot implements PIDOutput{
 
 		myRobot.setSafetyEnabled(true);
 
-		Turn(90);
+		DriveStraight(7,1);
+		Turn(30);
+		DriveStraight(5,1);
+
 	}
 	 /* Runs the motors with arcade steering.
 	 */
