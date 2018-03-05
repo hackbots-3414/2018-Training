@@ -88,13 +88,13 @@ public void DriveForward(double dist){
 		}
 			Timer.delay(0.0000001);
 		
-			myRobot.tankDrive(0, 0);
+			
 			
 			if(leftEncoder.getDistance()<rightEncoder.getDistance()){
 				myRobot.tankDrive(speed*0.99, speed);
 				System.out.println("2: Left," + leftEncoder.getDistance() + ", right" + rightEncoder.getDistance());
 			}
-			myRobot.tankDrive(0, 0);	
+	
 			Timer.delay(0.000001);
 		}
 		Timer.delay(0.000001);
@@ -196,9 +196,18 @@ public void turnRight(double angle, double speed){
 		turnLeft(15, 1);
 		DriveStraight(5, 1);
 		turnLeft(20, 1);
+		DriveStraight(10, 1);
+		turnLeft(20, 1);
 		DriveStraight(15, 1);
-		turn
-		
+		turnLeft(75, 1);
+		DriveStraight(30, 1);
+		turnRight(10, 1); 
+		DriveStraight(20, 1);
+		turnRight(46, 1);
+		DriveStraight(15, 1);
+		turnRight(75, 1);
+		DriveStraight(20, 1);
+	
 		
 		/**
 		myRobot.setSafetyEnabled(true);
